@@ -35,7 +35,7 @@ class _CarCarouselState extends State<CarCarousel> {
                   '2020',
                   style: TextStyle(
                       color: Color.fromRGBO(211, 213, 229, 1),
-                      fontSize: 25,
+                      fontSize: 26,
                       fontWeight: FontWeight.bold),
                 ),
                 Text(

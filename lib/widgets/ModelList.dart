@@ -33,13 +33,7 @@ class _CarsState extends State<Cars> {
             margin: EdgeInsets.only(left: 40),
             child: Text(
               cars[index],
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 13,
-                color: active
-                    ? Color.fromRGBO(23, 38, 102, 1)
-                    : Color.fromRGBO(115, 140, 252, 1),
-              ),
+             
             ),
           ),
         ),

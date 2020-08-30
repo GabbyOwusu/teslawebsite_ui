@@ -1,7 +1,9 @@
 import 'dart:html';
 import 'package:flutter/material.dart';
+import 'package:flutter_web_demo/providers/CarsProvider.dart';
 import 'package:flutter_web_demo/widgets/CarCarousel.dart';
-import 'package:flutter_web_demo/widgets/Cars.dart';
+import 'package:flutter_web_demo/widgets/ModelList.dart';
+import 'package:provider/provider.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -13,6 +15,13 @@ List<String> socialIcons = [
   'images/fb.png',
   'images/twitter.png',
   'images/youtube.png',
+];
+
+List<String> cars = [
+  'Model S',
+  'Model X',
+  'Model Y',
+  'Model 3',
 ];
 
 Widget handles() {
@@ -41,6 +50,10 @@ bool active = false;
 bool tapped = false;
 
 class _MyHomePageState extends State<MyHomePage> {
+  CarsProvider get provider {
+    return Provider.of<CarsProvider>(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +75,21 @@ class _MyHomePageState extends State<MyHomePage> {
                     Image.asset('images/logo.png',
                         height: 30, color: Colors.black),
                     Spacer(),
-                    Center(child: Cars()),
+
+                    ...List.generate(
+                        cars.length,
+                        (index) => Padding(
+                              padding: EdgeInsets.only(left: 20),
+                              child: Text(
+                                cars[index],
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 13,
+                                    color: Color.fromRGBO(23, 38, 102, 1)),
+                              ),
+                            )).toList(),
+
+                    //Center(child: Cars()),
                     Spacer(),
                     Icon(
                       Icons.person,

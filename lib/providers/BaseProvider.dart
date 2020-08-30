@@ -1,3 +1,3 @@
-import 'package:provider/provider.dart';
+import 'package:flutter/cupertino.dart';
 
-class BaseProvider extends ChangeNotifierProvider {}
+class BaseProvider extends ChangeNotifier {}

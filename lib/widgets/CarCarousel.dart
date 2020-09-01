@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_web_demo/models/CarsModel.dart';
 
 class CarCarousel extends StatefulWidget {
   final PageController controller;
+  final Car car;
 
-  CarCarousel({@required this.controller});
+  CarCarousel({@required this.controller, @required this.car});
   @override
   _CarCarouselState createState() => _CarCarouselState();
 }
@@ -39,14 +41,14 @@ class _CarCarouselState extends State<CarCarousel> {
                       fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  'MODEL S',
+                  widget.car.name,
                   style: TextStyle(
                       color: Color.fromRGBO(23, 38, 102, 1),
                       fontSize: 60,
                       fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  'choosing a model s is a statement. It is a declaration that only the \nabsolute best in quality and performance will do',
+                  widget.car.description,
                   style: TextStyle(
                       color: Color.fromRGBO(23, 38, 102, 1),
                       fontSize: 13,
@@ -106,7 +108,7 @@ class _CarCarouselState extends State<CarCarousel> {
               child: PageView.builder(
                 controller: widget.controller,
                 itemBuilder: (context, index) =>
-                    Image.asset(tesla[index], height: 700),
+                    Image.asset(widget.car.images[index], height: 700),
                 itemCount: tesla.length,
               ),
             ),

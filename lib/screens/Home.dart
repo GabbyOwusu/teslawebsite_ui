@@ -54,123 +54,140 @@ class _MyHomePageState extends State<MyHomePage> {
     return Provider.of<CarsProvider>(context);
   }
 
+  String image;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('images/bg1.png'),
-            fit: BoxFit.fill,
+      body: Stack(
+        children: [
+          Container(
+            child: Image.asset(
+              image ?? 'images/bg1.png',
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.fill,
+            ),
           ),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.all(20),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image.asset('images/logo.png',
-                        height: 30, color: Colors.black),
-                    Spacer(),
-
-                    ...List.generate(
-                        cars.length,
-                        (index) => Padding(
-                              padding: EdgeInsets.only(left: 20),
-                              child: Text(
-                                cars[index],
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 13,
-                                    color: Color.fromRGBO(23, 38, 102, 1)),
-                              ),
-                            )).toList(),
-
-                    //Center(child: Cars()),
-                    Spacer(),
-                    Icon(
-                      Icons.person,
-                      size: 15,
-                      color: Color.fromRGBO(23, 38, 102, 1),
-                    ),
-                    SizedBox(width: 20),
-                    Icon(
-                      Icons.menu,
-                      size: 15,
-                      color: Color.fromRGBO(23, 38, 102, 1),
-                    ),
-                  ],
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(20),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        'images/logo.png',
+                        height: 30,
+                        color: Colors.black,
+                      ),
+                      Spacer(),
+                      ...List.generate(
+                          cars.length,
+                          (index) => Padding(
+                                padding: EdgeInsets.only(left: 20),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      image =
+                                          provider.items[index].backgroungImage;
+                                    });
+                                  },
+                                  child: Text(
+                                    cars[index],
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13,
+                                        color: Color.fromRGBO(23, 38, 102, 1)),
+                                  ),
+                                ),
+                              )).toList(),
+                      Spacer(),
+                      Icon(
+                        Icons.person,
+                        size: 15,
+                        color: Color.fromRGBO(23, 38, 102, 1),
+                      ),
+                      SizedBox(width: 20),
+                      Icon(
+                        Icons.menu,
+                        size: 15,
+                        color: Color.fromRGBO(23, 38, 102, 1),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              CarCarousel(controller: controller),
-              Padding(
-                padding: EdgeInsets.only(left: 100, right: 50, bottom: 30),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    handles(),
-                    Spacer(),
-                    Container(
-                      height: 40,
-                      width: 50,
-                      padding: EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                          border: Border.all(
+                ...List.generate(
+                    provider.items.length,
+                    (index) => CarCarousel(
+                        controller: controller, car: provider.items[index])),
+                Padding(
+                  padding: EdgeInsets.only(left: 100, right: 50, bottom: 30),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      handles(),
+                      Spacer(),
+                      Container(
+                        height: 40,
+                        width: 50,
+                        padding: EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Color.fromRGBO(115, 140, 252, 1)
+                                  .withOpacity(0.3),
+                            ),
+                            shape: BoxShape.circle),
+                        child: Center(
+                          child: IconButton(
+                            icon: Icon(Icons.arrow_back_ios),
+                            iconSize: 8,
                             color: Color.fromRGBO(115, 140, 252, 1)
                                 .withOpacity(0.3),
+                            onPressed: () {
+                              controller.previousPage(
+                                  duration: Duration(milliseconds: 1100),
+                                  curve: Curves.easeInOut);
+                            },
                           ),
-                          shape: BoxShape.circle),
-                      child: Center(
-                        child: IconButton(
-                          icon: Icon(Icons.arrow_back_ios),
-                          iconSize: 8,
-                          color:
-                              Color.fromRGBO(115, 140, 252, 1).withOpacity(0.3),
-                          onPressed: () {
-                            controller.previousPage(
-                                duration: Duration(milliseconds: 1100),
-                                curve: Curves.easeInOut);
-                          },
                         ),
                       ),
-                    ),
-                    SizedBox(width: 10),
-                    Container(
-                      height: 50,
-                      width: 50,
-                      padding: EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                          border: Border.all(
+                      SizedBox(width: 10),
+                      Container(
+                        height: 50,
+                        width: 50,
+                        padding: EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Color.fromRGBO(115, 140, 252, 1),
+                            ),
+                            shape: BoxShape.circle),
+                        child: Center(
+                          child: IconButton(
+                            icon: Icon(Icons.arrow_forward_ios),
+                            iconSize: tapped ? 15 : 8,
                             color: Color.fromRGBO(115, 140, 252, 1),
+                            onPressed: () {
+                              controller.nextPage(
+                                  duration: Duration(milliseconds: 1100),
+                                  curve: Curves.easeInOut);
+                            },
                           ),
-                          shape: BoxShape.circle),
-                      child: Center(
-                        child: IconButton(
-                          icon: Icon(Icons.arrow_forward_ios),
-                          iconSize: tapped ? 15 : 8,
-                          color: Color.fromRGBO(115, 140, 252, 1),
-                          onPressed: () {
-                            controller.nextPage(
-                                duration: Duration(milliseconds: 1100),
-                                curve: Curves.easeInOut);
-                          },
                         ),
                       ),
-                    ),
-                    Spacer(),
-                    Text(
-                      'Designed By Tomisin. 2020',
-                      style: TextStyle(color: Color.fromRGBO(23, 38, 102, 1)),
-                    )
-                  ],
-                ),
-              )
-            ],
+                      Spacer(),
+                      Text(
+                        'Designed By Tomisin. 2020',
+                        style: TextStyle(color: Color.fromRGBO(23, 38, 102, 1)),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

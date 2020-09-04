@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_web_demo/models/CarsModel.dart';
 import 'package:flutter_web_demo/providers/BaseProvider.dart';
 
@@ -7,6 +8,7 @@ class CarsProvider extends BaseProvider {
   Car get selected => _selected ?? cars.first;
 
   List<Car> get cars => _cars;
+
   void setCurrentCar(Car car) {
     _selected = car;
     notifyListeners();
@@ -15,6 +17,7 @@ class CarsProvider extends BaseProvider {
   List<Car> _cars = [
     Car(
       backgroungImage: 'images/bg1.png',
+      color: Color.fromRGBO(23, 38, 102, 1),
       images: [
         'images/tesla1.png',
         'images/tesla3.webp',
@@ -28,6 +31,7 @@ class CarsProvider extends BaseProvider {
     ),
     Car(
       backgroungImage: 'images/bg3.png',
+      color: Color.fromRGBO(23, 38, 102, 1),
       images: [
         'images/modely1.png',
         'images/modely2.png',
@@ -41,6 +45,7 @@ class CarsProvider extends BaseProvider {
     ),
     Car(
       backgroungImage: 'images/bg2.png',
+      color: Color.fromRGBO(23, 38, 102, 1),
       images: [
         'images/model33.png',
         'images/model32.png',
@@ -54,6 +59,7 @@ class CarsProvider extends BaseProvider {
     ),
     Car(
       backgroungImage: 'images/bg4.png',
+      color: Color.fromRGBO(23, 38, 102, 1),
       images: [
         'images/modelx2.png',
         'images/modelx1.png',

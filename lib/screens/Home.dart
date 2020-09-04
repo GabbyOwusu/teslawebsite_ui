@@ -1,8 +1,6 @@
-import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_demo/providers/CarsProvider.dart';
 import 'package:flutter_web_demo/widgets/CarCarousel.dart';
-import 'package:flutter_web_demo/widgets/ModelList.dart';
 import 'package:provider/provider.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -10,63 +8,56 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-List<String> socialIcons = [
-  'images/ig.png',
-  'images/fb.png',
-  'images/twitter.png',
-  'images/youtube.png',
-];
-
-List<String> cars = [
-  'Model S',
-  'Model X',
-  'Model Y',
-  'Model 3',
-];
-
-Widget handles() {
-  return Container(
-    height: 20,
-    child: ListView.builder(
-      shrinkWrap: true,
-      scrollDirection: Axis.horizontal,
-      itemCount: 4,
-      itemBuilder: (context, index) => Container(
-        margin: EdgeInsets.only(left: 30),
-        height: 20,
-        width: 20,
-        child: Image.asset(
-          socialIcons[index],
-          height: 20,
-          color: Color.fromRGBO(23, 38, 102, 1),
-        ),
-      ),
-    ),
-  );
-}
-
 PageController controller = PageController();
 bool active = false;
 bool tapped = false;
 
 class _MyHomePageState extends State<MyHomePage> {
-  CarsProvider get provider {
-    return Provider.of<CarsProvider>(context);
-  }
+  List<String> _socialIcons = [
+    'images/ig.png',
+    'images/fb.png',
+    'images/twitter.png',
+    'images/youtube.png',
+  ];
 
-  String image;
+  Widget handles() {
+    return Container(
+      height: 20,
+      child: ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemCount: 4,
+        itemBuilder: (context, index) => Container(
+          margin: EdgeInsets.only(left: 30),
+          height: 20,
+          width: 20,
+          child: Image.asset(
+            _socialIcons[index],
+            height: 20,
+            color: Color.fromRGBO(23, 38, 102, 1),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<CarsProvider>(context);
+
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            child: Image.asset(
-              image ?? 'images/bg1.png',
-              width: double.infinity,
-              height: double.infinity,
-              fit: BoxFit.fill,
+          AnimatedContainer(
+            duration: Duration(milliseconds: 1500),
+            child: Container(
+              child: Image.asset(
+                provider.selected.backgroungImage,
+                width: double.infinity,
+                height: double.infinity,
+                fit: BoxFit.fill,
+              ),
             ),
           ),
           SingleChildScrollView(
@@ -84,25 +75,28 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       Spacer(),
                       ...List.generate(
-                          cars.length,
-                          (index) => Padding(
-                                padding: EdgeInsets.only(left: 20),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      image =
-                                          provider.items[index].backgroungImage;
-                                    });
-                                  },
-                                  child: Text(
-                                    cars[index],
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 13,
-                                        color: Color.fromRGBO(23, 38, 102, 1)),
-                                  ),
+                        provider.cars.length,
+                        (index) {
+                          return GestureDetector(
+                            onTap: () {
+                              context
+                                  .read<CarsProvider>()
+                                  .setCurrentCar(provider.cars[index]);
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 20),
+                              child: Text(
+                                provider.cars[index].name,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                  color: Color.fromRGBO(23, 38, 102, 1),
                                 ),
-                              )).toList(),
+                              ),
+                            ),
+                          );
+                        },
+                      ).toList(),
                       Spacer(),
                       Icon(
                         Icons.person,
@@ -118,10 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                 ),
-                ...List.generate(
-                    provider.items.length,
-                    (index) => CarCarousel(
-                        controller: controller, car: provider.items[index])),
+                CarCarousel(controller: controller, car: provider.selected),
                 Padding(
                   padding: EdgeInsets.only(left: 100, right: 50, bottom: 30),
                   child: Row(
@@ -147,8 +138,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                 .withOpacity(0.3),
                             onPressed: () {
                               controller.previousPage(
-                                  duration: Duration(milliseconds: 1100),
-                                  curve: Curves.easeInOut);
+                                duration: Duration(milliseconds: 1100),
+                                curve: Curves.easeInOut,
+                              );
                             },
                           ),
                         ),
@@ -159,10 +151,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         width: 50,
                         padding: EdgeInsets.all(6),
                         decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Color.fromRGBO(115, 140, 252, 1),
-                            ),
-                            shape: BoxShape.circle),
+                          border: Border.all(
+                            color: Color.fromRGBO(115, 140, 252, 1),
+                          ),
+                          shape: BoxShape.circle,
+                        ),
                         child: Center(
                           child: IconButton(
                             icon: Icon(Icons.arrow_forward_ios),
@@ -170,8 +163,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             color: Color.fromRGBO(115, 140, 252, 1),
                             onPressed: () {
                               controller.nextPage(
-                                  duration: Duration(milliseconds: 1100),
-                                  curve: Curves.easeInOut);
+                                duration: Duration(milliseconds: 1100),
+                                curve: Curves.easeInOut,
+                              );
                             },
                           ),
                         ),
@@ -179,8 +173,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       Spacer(),
                       Text(
                         'Designed By Tomisin. 2020',
-                        style: TextStyle(color: Color.fromRGBO(23, 38, 102, 1)),
-                      )
+                        style: TextStyle(
+                          color: Color.fromRGBO(23, 38, 102, 1),
+                        ),
+                      ),
                     ],
                   ),
                 )
@@ -190,25 +186,5 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
     );
-  }
-}
-
-class Skew extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-    path.lineTo(size.width, 0);
-
-    path.lineTo(size.width - 50, size.height);
-    path.lineTo(0, size.height);
-    path.lineTo(size.height + 0.5, 0);
-    path.close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return false;
   }
 }

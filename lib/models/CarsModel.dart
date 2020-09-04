@@ -4,5 +4,10 @@ class Car {
   String backgroungImage;
   List<String> images;
 
-  Car({this.name, this.description, this.backgroungImage, this.images});
+  Car({
+    this.name,
+    this.description,
+    this.backgroungImage,
+    this.images,
+  });
 }

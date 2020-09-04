@@ -46,6 +46,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final provider = Provider.of<CarsProvider>(context);
 
+    bool selected = false;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -79,6 +81,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         (index) {
                           return GestureDetector(
                             onTap: () {
+                              setState(() {
+                                selected = true;
+                              });
                               context
                                   .read<CarsProvider>()
                                   .setCurrentCar(provider.cars[index]);
@@ -90,7 +95,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 13,
-                                  color: Color.fromRGBO(23, 38, 102, 1),
+                                  color: selected
+                                      ? Colors.black
+                                      : provider.cars[index].color,
                                 ),
                               ),
                             ),

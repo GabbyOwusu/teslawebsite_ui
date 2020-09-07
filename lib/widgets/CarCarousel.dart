@@ -54,46 +54,14 @@ class _CarCarouselState extends State<CarCarousel> {
                   SizedBox(height: 20),
                   Row(
                     children: [
-                      Container(
-                        height: 50,
-                        width: 150,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Color.fromRGBO(115, 140, 252, 1),
-                              width: 2,
-                            ),
-                            shape: BoxShape.rectangle),
-                        child: Stack(
-                          children: [
-                            Center(
-                              child: Text(
-                                'Learn More',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: Color.fromRGBO(115, 140, 252, 1),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                      CTAButton(
+                        text: "Learn More",
+                        transparent: true,
                       ),
-                      SizedBox(width: 10),
-                      Container(
-                        height: 50,
-                        width: 200,
-                        decoration: BoxDecoration(
-                          color: Color.fromRGBO(115, 140, 252, 1),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Order Now',
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
+
+                      SizedBox(width: 15),
+                      //CTA
+                      CTAButton(text: "Order Now")
                     ],
                   ),
                 ],
@@ -115,6 +83,39 @@ class _CarCarouselState extends State<CarCarousel> {
               ),
             )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class CTAButton extends StatelessWidget {
+  final bool transparent;
+  final String text;
+  CTAButton({this.transparent = false, this.text});
+  @override
+  Widget build(BuildContext context) {
+    final color = Color.fromRGBO(115, 140, 252, 1);
+    return Transform(
+      transform: Matrix4.skewX(-0.4),
+      child: Container(
+        height: 40,
+        width: 120,
+        decoration: BoxDecoration(
+          border: transparent ? Border.all(color: color, width: 2.0) : null,
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          color: transparent ? Colors.transparent : color,
+        ),
+        child: Center(
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.w500,
+              fontStyle: FontStyle.normal,
+              color: transparent ? color : Colors.white,
+            ),
+          ),
         ),
       ),
     );

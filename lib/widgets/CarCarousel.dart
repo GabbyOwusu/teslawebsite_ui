@@ -96,17 +96,23 @@ class CTAButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = Color.fromRGBO(115, 140, 252, 1);
-    return Transform(
-      transform: Matrix4.skewX(-0.4),
-      child: Container(
-        height: 40,
-        width: 120,
-        decoration: BoxDecoration(
-          border: transparent ? Border.all(color: color, width: 2.0) : null,
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          color: transparent ? Colors.transparent : color,
+    return Stack(
+      children: [
+        Transform(
+          transform: Matrix4.skewX(-0.4),
+          child: Container(
+            height: 40,
+            width: 120,
+            decoration: BoxDecoration(
+              border: transparent ? Border.all(color: color, width: 2.0) : null,
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+              color: transparent ? Colors.transparent : color,
+            ),
+          ),
         ),
-        child: Center(
+        Positioned(
+          left: 20,
+          top: 12,
           child: Text(
             text,
             style: TextStyle(
@@ -117,7 +123,7 @@ class CTAButton extends StatelessWidget {
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

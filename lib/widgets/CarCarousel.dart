@@ -108,14 +108,24 @@ class _CarCarouselState extends State<CarCarousel> {
               ),
             ),
             Expanded(
-              child: Container(
-                height: 500,
-                child: PageView.builder(
-                  controller: widget.controller,
-                  itemCount: tesla.length,
-                  itemBuilder: (context, index) {
-                    return Image.asset(widget.car.images[index], height: 700);
-                  },
+              child: IgnorePointer(
+                ignoring: true,
+                child: Container(
+                  height: 500,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.white, Colors.white],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                  ),
+                  child: PageView.builder(
+                    controller: widget.controller,
+                    itemCount: tesla.length,
+                    itemBuilder: (context, index) {
+                      return Image.asset(widget.car.images[index], height: 700);
+                    },
+                  ),
                 ),
               ),
             )

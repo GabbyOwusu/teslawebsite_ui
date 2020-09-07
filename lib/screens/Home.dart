@@ -24,21 +24,22 @@ class _MyHomePageState extends State<MyHomePage> {
     return Container(
       height: 20,
       child: ListView.builder(
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemCount: 4,
-        itemBuilder: (context, index) => Container(
-          margin: EdgeInsets.only(left: 30),
-          height: 20,
-          width: 20,
-          child: Image.asset(
-            _socialIcons[index],
-            height: 20,
-            color: Color.fromRGBO(23, 38, 102, 1),
-          ),
-        ),
-      ),
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          itemCount: 4,
+          itemBuilder: (context, index) {
+            return Container(
+              margin: EdgeInsets.only(left: 30),
+              height: 20,
+              width: 20,
+              child: Image.asset(
+                _socialIcons[index],
+                height: 20,
+                color: Color.fromRGBO(23, 38, 102, 1),
+              ),
+            );
+          }),
     );
   }
 

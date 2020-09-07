@@ -10,14 +10,6 @@ class CarCarousel extends StatefulWidget {
   _CarCarouselState createState() => _CarCarouselState();
 }
 
-List<String> tesla = [
-  'images/tesla1.png',
-  'images/tesla2.png',
-  'images/tesla3.webp',
-  'images/tesla4.png',
-  'images/tesla5.png',
-];
-
 class _CarCarouselState extends State<CarCarousel> {
   @override
   Widget build(BuildContext context) {
@@ -112,16 +104,9 @@ class _CarCarouselState extends State<CarCarousel> {
                 ignoring: true,
                 child: Container(
                   height: 500,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Colors.white, Colors.white],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    ),
-                  ),
                   child: PageView.builder(
                     controller: widget.controller,
-                    itemCount: tesla.length,
+                    itemCount: widget.car.images.length,
                     itemBuilder: (context, index) {
                       return Image.asset(widget.car.images[index], height: 700);
                     },

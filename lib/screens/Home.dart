@@ -85,9 +85,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               setState(() {
                                 selected = true;
                               });
-                              context
-                                  .read<CarsProvider>()
-                                  .setCurrentCar(provider.cars[index]);
+                              context.read<CarsProvider>().setCurrentCar(
+                                    provider.cars[index],
+                                  );
                             },
                             child: Padding(
                               padding: EdgeInsets.only(left: 20),
